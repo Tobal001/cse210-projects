@@ -1,6 +1,10 @@
 using System;
-using System.IO;
+using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
+using System.Text.Json;
 
+
+// !! Exceeded requirements: Save and load document as a JSON file !!
 public class Journal 
 {
     public List<Entry> _entries = new List<Entry>();
@@ -11,10 +15,12 @@ public class Journal
 
         PromptGenerator newPromt = new PromptGenerator();
         newEntry._promptText = newPromt.GetRandomPrompt();
+        Console. WriteLine("");
         Console.WriteLine(newEntry._promptText);
 
         Console.Write("> ");
         newEntry._Text = Console.ReadLine();
+        Console.WriteLine("");
 
         DateTime theCurrenTime = DateTime.Now;
         newEntry._date = theCurrenTime.ToShortDateString();
@@ -23,47 +29,44 @@ public class Journal
     }
 
     public void DisplayAll()
-    {
+    {   
+
         foreach (Entry entry in _entries)
         {
             entry.Display();
         }
-     
+    
     }
 
+//Serialized file to Json format 
     public void SaveToFile()
-    {
-        Console.Write("Save File As: ");
-        string file = Console.ReadLine();
+    {   
         
-        
+        Console.Write("Save File As (Please including .json): ");
+        string fileName = Console.ReadLine();
 
+        string jsonString = JsonSerializer.Serialize(_entries);
+
+        File.WriteAllText(fileName, jsonString);
+
+        Console.WriteLine($"Entries saved to file: {fileName}\n");
     }
 
+//Desearlized JSON file, to allow the entries into _entries 
     public void LoadFromFile() 
     {
         Console.Write("Enter file name: ");
-        string loadFile = Console.ReadLine();
+        string fileName = Console.ReadLine();
         
-        if (File.Exists(loadFile))
+        if (File.Exists(fileName))
         {
             _entries.Clear();
-            string[] lines = System.IO.File.ReadAllLines(loadFile);
 
-            foreach (string line in lines)
-            {
-                string[] parts = line.Split('|');
-                if (parts.Length == 3)
-                {
-                    Entry entry = new Entry 
-                    {
-                        _date = parts[0].Trim(),
-                        _promptText = parts[1].Trim(),
-                        _Text = parts[2].Trim()
-                    };
-                    _entries.Add(entry);
-                }
-            }
+            string jsonString = File.ReadAllText(fileName);
+
+            _entries = JsonSerializer.Deserialize<List<Entry>>(jsonString);
+
+            Console.WriteLine("File loaded successfully.\n");
         }
         else
         {

@@ -17,29 +17,41 @@ class Program
             Console.WriteLine("Please select one of the following Choices:");
             Console.WriteLine("1. Write\n2. Display\n3. Load\n4. Save\n5. Quit");
             Console.Write("What would you like to do? ");
-            menu = int.Parse(Console.ReadLine());
-
-            if (menu == 1)
-            {   
-                
-                theJournal.AddEntry();
+            
+            try 
+            {
+                menu = int.Parse(Console.ReadLine());
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Invalid input. Please enter a number.");
+                continue;
             }   
-            else if (menu == 2)
+
+            switch (menu)
             {
-                theJournal.DisplayAll();
-            }
-            else if (menu == 3)
-            {
-                theJournal.LoadFromFile();
-            }
-            else if ( menu == 4)
-            {
+                case 1:
+                    theJournal.AddEntry();
+                    break;
+                case 2:
+                    theJournal.DisplayAll();
+                    break;
+                case 3:
+                    theJournal.LoadFromFile();
+                    break;
+                case 4:
                 theJournal.SaveToFile();
+                    break;
+                case 5:
+                    Console.WriteLine("Goodbye!");
+                    break;
+                default:
+                    Console.WriteLine("Invalid Choice. Please try again.");
+                    break;
             }
-            else 
-            {
-                Console.WriteLine("Sorry, please try again.");
-            }
+
+            Console.WriteLine("");
+            
         }while (menu != 5);        
         
     }
