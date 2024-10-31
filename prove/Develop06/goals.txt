@@ -1,0 +1,4 @@
+400
+SimpleGoal|test simple goal|fljfjsda;lkf|100
+EternalGoal|eternal goal|;ljfg;lsfdjlsadgj|100
+ChecklistGoal|checklist goal test|djgklajgklfj|100|2|1000|1

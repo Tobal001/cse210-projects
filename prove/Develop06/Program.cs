@@ -1,9 +1,10 @@
 using System;
-
+//Exceeding requirements: added 3 methods to animate a celebration for completing goal
 class Program
 {
     static void Main(string[] args)
     {
-        Console.WriteLine("Hello Develop06 World!");
+        GoalManager mainMenu = new GoalManager();
+        mainMenu.Start();
     }
 }
